@@ -1,24 +1,50 @@
 package kan9hee.nolaejui_management.controller
 
-import jakarta.servlet.http.HttpServletRequest
+import kan9hee.nolaejui_management.dto.AdminAccountDto
+import kan9hee.nolaejui_management.dto.MusicInfoDto
+import kan9hee.nolaejui_management.service.OrderService
 import lombok.extern.slf4j.Slf4j
 import org.springframework.core.env.Environment
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/management")
+@RequestMapping("/api/management")
 @Slf4j
-class TestController(private val env: Environment) {
+class TestController(private val env: Environment,
+                     private val orderService: OrderService) {
 
-    @GetMapping("/welcome")
-    fun welcome():String{
-        return "This is management server"
+    @PostMapping("/changeMusicInfo")
+    suspend fun changeMusicInfo(@RequestBody musicInfo: MusicInfoDto){
+        orderService.changeMusicInfo(musicInfo)
     }
 
-    @GetMapping("/check")
-    fun check(request: HttpServletRequest):String{
-        return String.format("Check management server on PORT %s", env.getProperty("local.server.port"))
+    @PostMapping("/deleteMusic")
+    suspend fun deleteMusic(@RequestBody dataId:Long){
+        orderService.deleteMusic(dataId)
+    }
+
+    @PostMapping("/disablePlayLog")
+    suspend fun disablePlayLog(@RequestBody dataId:Long){
+        orderService.disablePlayLog(dataId)
+    }
+
+    @PostMapping("/banUser")
+    suspend fun banUser(@RequestBody userName:String){
+        orderService.banUser(userName)
+    }
+
+    @PostMapping("/unbanUser")
+    suspend fun unbanUser(@RequestBody userName:String){
+        orderService.unbanUser(userName)
+    }
+
+    @PostMapping("/deleteUser")
+    suspend fun deleteUser(@RequestBody userName:String){
+        orderService.deleteUser(userName)
+    }
+
+    @PostMapping("/createAdminAccount")
+    suspend fun createAdminAccount(@RequestBody adminAccount:AdminAccountDto){
+        orderService.createAdminAccount(adminAccount)
     }
 }

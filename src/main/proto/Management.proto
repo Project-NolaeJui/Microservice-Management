@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message PlayLogProblem{
+  repeated PlayLogByLocation playLog = 1;
+  string problemCase = 2;
+  string problemDetail = 3;
+}
+
+message MusicProblem{
+  repeated MusicInfo musicInfo = 1;
+  string problemCase = 2;
+  string problemDetail = 3;
+}
+
+message PlayLogByLocation{
+  int64 logId = 1;
+  int64 musicId = 2;
+  string userName = 3;
+  double longitude = 4;
+  double latitude = 5;
+}
+
+message MusicInfo{
+  int64 musicId = 1;
+  string musicTitle = 2;
+  string artist = 3;
+  repeated string tags = 4; //List<String>
+  string dataType = 5;
+  string dataUrl = 6;
+  bool isPlayable = 7;
+  string uploaderName = 8;
+  google.protobuf.Timestamp uploadDate = 9; //LocalDate
+}
+
+message DataId{
+  int64 id = 1;
+}
+
+message UserName{
+  string userName = 1;
+}
+
+message AdminAccount{
+  string adminId = 1;
+  string adminPassword = 2;
+}
+
+message GrpcResult{
+  bool isSuccess = 1;
+  string resultMessage = 2;
+}
+
+service AdminResponseService{
+  rpc reportMusicProblem(MusicProblem) returns (GrpcResult){}
+  rpc reportPlayLogProblem(PlayLogProblem) returns (GrpcResult){}
+}
+
+// other server
+service MusicListServer {
+  rpc deleteMusic(DataId) returns (GrpcResult){}
+  rpc changeMusicInfo(MusicInfo) returns (GrpcResult){}
+}
+
+// other server
+service PlayLogServer {
+  rpc disablePlayLog(DataId) returns (GrpcResult){}
+}
+
+// other server
+service AuthServer {
+  rpc banUser(UserName) returns (GrpcResult){}
+  rpc unbanUser(UserName) returns (GrpcResult){}
+  rpc createAdminAccount(AdminAccount) returns (GrpcResult){}
+  rpc deleteUser(UserName) returns (GrpcResult){}
+}
