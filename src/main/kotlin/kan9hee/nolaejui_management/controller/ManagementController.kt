@@ -8,10 +8,10 @@ import org.springframework.core.env.Environment
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/management")
+@RequestMapping("/management")
 @Slf4j
-class TestController(private val env: Environment,
-                     private val orderService: OrderService) {
+class ManagementController(private val env: Environment,
+                           private val orderService: OrderService) {
 
     @PostMapping("/changeMusicInfo")
     suspend fun changeMusicInfo(@RequestBody musicInfo: MusicInfoDto){
@@ -24,7 +24,7 @@ class TestController(private val env: Environment,
     }
 
     @PostMapping("/disablePlayLog")
-    suspend fun disablePlayLog(@RequestBody dataId:Long){
+    suspend fun disablePlayLog(@RequestBody dataId:String){
         orderService.disablePlayLog(dataId)
     }
 

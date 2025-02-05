@@ -22,7 +22,7 @@ class OrderService(@GrpcClient("nolaejui-auth")
                    private val discordService: DiscordService) {
 
     suspend fun deleteMusic(idValue:Long){
-        val request = Management.DataId.newBuilder()
+        val request = Management.MusicDataId.newBuilder()
             .setId(idValue)
             .build()
 
@@ -47,12 +47,12 @@ class OrderService(@GrpcClient("nolaejui-auth")
         resultReportToAdmin("음원 정보 변경 ",response)
     }
 
-    suspend fun disablePlayLog(idValue:Long){
-        val request = Management.DataId.newBuilder()
+    suspend fun disablePlayLog(idValue:String){
+        val request = Management.PlayLogId.newBuilder()
             .setId(idValue)
             .build()
 
-        val response = playLogStub.disablePlayLog(request)
+        val response = playLogStub.deletePlayLog(request)
         resultReportToAdmin("재생 기록 비활성화 ",response)
     }
 

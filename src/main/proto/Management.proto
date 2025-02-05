@@ -3,23 +3,27 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 
 message PlayLogProblem{
-  repeated PlayLogByLocation playLog = 1;
+  PlayLogByLocation playLog = 1;
   string problemCase = 2;
   string problemDetail = 3;
 }
 
 message MusicProblem{
-  repeated MusicInfo musicInfo = 1;
+  MusicInfo musicInfo = 1;
   string problemCase = 2;
   string problemDetail = 3;
 }
 
 message PlayLogByLocation{
-  int64 logId = 1;
+  string logId = 1;
   int64 musicId = 2;
   string userName = 3;
-  double longitude = 4;
-  double latitude = 5;
+  LocationInfo locationInfo = 4;
+}
+
+message LocationInfo{
+  double longitude = 1;
+  double latitude = 2;
 }
 
 message MusicInfo{
@@ -34,8 +38,12 @@ message MusicInfo{
   google.protobuf.Timestamp uploadDate = 9; //LocalDate
 }
 
-message DataId{
+message MusicDataId{
   int64 id = 1;
+}
+
+message PlayLogId{
+  string id = 1;
 }
 
 message UserName{
@@ -52,20 +60,21 @@ message GrpcResult{
   string resultMessage = 2;
 }
 
-service AdminResponseService{
+service AdminResponseServer{
   rpc reportMusicProblem(MusicProblem) returns (GrpcResult){}
   rpc reportPlayLogProblem(PlayLogProblem) returns (GrpcResult){}
 }
 
 // other server
 service MusicListServer {
-  rpc deleteMusic(DataId) returns (GrpcResult){}
+  rpc deleteMusic(MusicDataId) returns (GrpcResult){}
   rpc changeMusicInfo(MusicInfo) returns (GrpcResult){}
 }
 
 // other server
 service PlayLogServer {
-  rpc disablePlayLog(DataId) returns (GrpcResult){}
+  rpc deletePlayLog(PlayLogId) returns (GrpcResult){}
+  rpc addMusicPlayLog(PlayLogByLocation) returns (GrpcResult){}
 }
 
 // other server

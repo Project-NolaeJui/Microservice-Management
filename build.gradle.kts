@@ -49,8 +49,8 @@ dependencies {
 
 	implementation("org.json:json:20240303")
 	implementation("net.dv8tion:JDA:5.2.2")
-
 	implementation("mysql:mysql-connector-java:8.0.33")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
