@@ -56,24 +56,6 @@ class OrderService(@GrpcClient("nolaejui-auth")
         resultReportToAdmin("재생 기록 비활성화 ",response)
     }
 
-    suspend fun banUser(name:String){
-        val request = Management.UserName.newBuilder()
-            .setUserName(name)
-            .build()
-
-        val response = authStub.banUser(request)
-        resultReportToAdmin("계정 차단 ",response)
-    }
-
-    suspend fun unbanUser(name:String){
-        val request = Management.UserName.newBuilder()
-            .setUserName(name)
-            .build()
-
-        val response = authStub.unbanUser(request)
-        resultReportToAdmin("계정 해지 ",response)
-    }
-
     suspend fun deleteUser(name:String){
         val request = Management.UserName.newBuilder()
             .setUserName(name)

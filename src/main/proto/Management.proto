@@ -74,13 +74,10 @@ service MusicListServer {
 // other server
 service PlayLogServer {
   rpc deletePlayLog(PlayLogId) returns (GrpcResult){}
-  rpc addMusicPlayLog(PlayLogByLocation) returns (GrpcResult){}
 }
 
 // other server
 service AuthServer {
-  rpc banUser(UserName) returns (GrpcResult){}
-  rpc unbanUser(UserName) returns (GrpcResult){}
   rpc createAdminAccount(AdminAccount) returns (GrpcResult){}
   rpc deleteUser(UserName) returns (GrpcResult){}
 }
