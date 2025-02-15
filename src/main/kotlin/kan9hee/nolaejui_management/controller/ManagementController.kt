@@ -28,16 +28,6 @@ class ManagementController(private val env: Environment,
         orderService.disablePlayLog(dataId)
     }
 
-    @PostMapping("/banUser")
-    suspend fun banUser(@RequestBody userName:String){
-        orderService.banUser(userName)
-    }
-
-    @PostMapping("/unbanUser")
-    suspend fun unbanUser(@RequestBody userName:String){
-        orderService.unbanUser(userName)
-    }
-
     @PostMapping("/deleteUser")
     suspend fun deleteUser(@RequestBody userName:String){
         orderService.deleteUser(userName)
