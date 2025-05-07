@@ -29,8 +29,8 @@ class ManagementController(private val env: Environment,
     }
 
     @PostMapping("/deleteUser")
-    suspend fun deleteUser(@RequestBody userName:String){
-        orderService.deleteUser(userName)
+    suspend fun deleteUser(@RequestBody targetUserName:String){
+        orderService.deleteUser(targetUserName)
     }
 
     @PostMapping("/createAdminAccount")

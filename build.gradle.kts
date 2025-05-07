@@ -46,7 +46,7 @@ dependencies {
 	implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
 	implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
 
-	implementation("org.json:json:20240303")
+	implementation("com.googlecode.json-simple:json-simple:1.1.1")
 	implementation("net.dv8tion:JDA:5.2.2")
 
 	compileOnly("org.projectlombok:lombok")

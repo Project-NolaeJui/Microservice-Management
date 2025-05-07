@@ -3,11 +3,13 @@ package kan9hee.nolaejui_management.service
 import AuthServerGrpcKt
 import MusicListServerGrpcKt
 import PlayLogServerGrpcKt
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.protobuf.Timestamp
 import kan9hee.nolaejui_management.dto.AdminAccountDto
 import kan9hee.nolaejui_management.dto.MusicInfoDto
+import kan9hee.nolaejui_management.dto.discord.DiscordEmbed
+import kan9hee.nolaejui_management.dto.discord.DiscordMessage
 import net.devh.boot.grpc.client.inject.GrpcClient
-import org.json.JSONObject
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.ZoneId
@@ -75,14 +77,10 @@ class OrderService(@GrpcClient("nolaejui-auth")
     }
 
     private fun resultReportToAdmin(actName:String,result: Management.GrpcResult){
-        val jsonObject = JSONObject()
-        jsonObject.put("content",actName+"처리 동작이 끝났습니다.")
-        jsonObject.put("embeds", listOf(JSONObject().apply {
-            put("title", "처리 결과: "+result.isSuccess)
-            put("description", result.resultMessage)
-        }))
-
-        discordService.sendMessageToDiscordChannel(jsonObject)
+        val embed = DiscordEmbed("처리 결과: "+result.isSuccess, result.resultMessage, emptyList())
+        val message = DiscordMessage(actName+"처리 동작이 끝났습니다.",listOf(embed))
+        val jsonBody = jacksonObjectMapper().writeValueAsString(message)
+        discordService.sendMessageToDiscordChannel(jsonBody)
     }
 
     private fun convertLocalDateToProtoTimestamp(localDate: LocalDate): Timestamp {
